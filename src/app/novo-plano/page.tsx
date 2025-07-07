@@ -52,7 +52,8 @@ export default function NovoPlanoPage() {
         return;
       }
       
-      const res = await fetch('http://localhost:4000/gerar-plano', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${apiUrl}/gerar-plano`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

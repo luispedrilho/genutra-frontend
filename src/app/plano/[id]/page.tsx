@@ -35,7 +35,8 @@ export default function PlanoPage() {
           return;
         }
 
-        const res = await fetch(`http://localhost:4000/plano/${params.id}`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiUrl}/plano/${params.id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

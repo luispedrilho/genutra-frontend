@@ -31,7 +31,8 @@ export default function PainelPage() {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
-        const res = await fetch('http://localhost:4000/dashboard', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiUrl}/dashboard`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -46,7 +47,8 @@ export default function PainelPage() {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
-        const res = await fetch(`http://localhost:4000/planos/recentes?limit=${RECENTES_LIMIT}&offset=${recentesPage * RECENTES_LIMIT}`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiUrl}/planos/recentes?limit=${RECENTES_LIMIT}&offset=${recentesPage * RECENTES_LIMIT}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -71,7 +73,8 @@ export default function PainelPage() {
           return;
         }
         
-        const res = await fetch('http://localhost:4000/planos', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const res = await fetch(`${apiUrl}/planos`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
