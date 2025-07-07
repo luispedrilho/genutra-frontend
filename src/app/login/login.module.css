@@ -1,0 +1,132 @@
+.loginBg {
+  min-height: 100vh;
+  width: 100vw;
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginCard {
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(51, 102, 255, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 48px 32px 32px 32px;
+  max-width: 380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--text-gray);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.label {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: var(--border-radius-md);
+  background: #f9fafb;
+  font-size: 1rem;
+  color: var(--text-dark);
+  outline: none;
+  transition: border 0.2s;
+  margin-bottom: 0.5rem;
+}
+.input:focus {
+  border-color: var(--primary-blue);
+  background: #fff;
+}
+
+.loginButton {
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
+  min-height: 44px;
+}
+
+.divider {
+  width: 100%;
+  text-align: center;
+  color: var(--text-gray);
+  margin: 1.25rem 0 1rem 0;
+  font-size: 0.95rem;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: '';
+  display: inline-block;
+  width: 40%;
+  height: 1px;
+  background: #e5e7eb;
+  vertical-align: middle;
+  margin: 0 8px;
+}
+
+.googleButton {
+  width: 100%;
+  background: #fff;
+  color: var(--text-dark);
+  border: 1.5px solid #e5e7eb;
+  font-weight: var(--font-weight-semibold);
+  min-height: 44px;
+  margin-bottom: 1.25rem;
+  border-radius: var(--border-radius-md);
+  transition: border 0.2s, background 0.2s;
+}
+.googleButton:hover {
+  border-color: var(--primary-blue);
+  background: #f4f8ff;
+}
+
+.signupText {
+  color: var(--text-gray);
+  font-size: 0.98rem;
+  text-align: center;
+}
+.signupLink {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  margin-left: 2px;
+}
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .loginCard {
+    padding: 32px 12px 24px 12px;
+    max-width: 98vw;
+  }
+} 

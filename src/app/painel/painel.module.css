@@ -1,0 +1,395 @@
+.bg {
+  min-height: 100vh;
+  background: var(--bg-light);
+  padding: 32px 0 0 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+  padding: 0 24px;
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-dark);
+}
+
+.novoPlanoBtn {
+  min-width: 120px;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
+}
+
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(51, 102, 255, 0.06), 0 1.5px 6px rgba(0,0,0,0.04);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-dark);
+  margin-bottom: 18px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.table th, .table td {
+  padding: 12px 8px;
+  text-align: left;
+}
+
+.table th {
+  color: var(--text-gray);
+  font-weight: var(--font-weight-semibold);
+  font-size: 1rem;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.table td {
+  color: var(--text-dark);
+  font-size: 1rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.editBtn {
+  color: var(--primary-blue);
+  background: none;
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  margin-right: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+.editBtn:hover {
+  text-decoration: underline;
+}
+
+.deleteBtn {
+  color: var(--error-red);
+  background: none;
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: text-decoration 0.2s;
+}
+.deleteBtn:hover {
+  text-decoration: underline;
+}
+
+.viewBtn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 4px;
+  transition: background-color 0.2s;
+}
+
+.viewBtn:hover {
+  background: #2563eb;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+}
+
+.dashboardCard {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.04);
+  padding: 24px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.dashboardLabel {
+  font-size: 15px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.dashboardValue {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #3366ff;
+  line-height: 1.1;
+}
+
+@media (max-width: 900px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0 4px;
+  }
+  .dashboardCard {
+    padding: 18px 8px;
+  }
+}
+
+@media (max-width: 800px) {
+  .card, .header {
+    max-width: 98vw;
+    padding: 0 8px;
+  }
+  .card {
+    padding: 24px 8px;
+  }
+}
+
+.recentesWrapper {
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+  padding: 0 8px;
+}
+.recentesTitulo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+.recentesCards {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.cardPlanoRecente {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.04);
+  padding: 18px 20px 14px 20px;
+  min-width: 210px;
+  max-width: 260px;
+  flex: 1 1 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cardPlanoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.cardPlanoPaciente {
+  font-weight: 600;
+  color: #3366ff;
+  font-size: 1.1rem;
+}
+.cardPlanoData {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+.cardPlanoObjetivo {
+  font-size: 1rem;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+.cardPlanoAcoes {
+  margin-top: 8px;
+}
+.paginacaoRecentes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.paginacaoRecentes button {
+  background: #e0e7ff;
+  color: #3730a3;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.paginacaoRecentes button:disabled {
+  background: #f3f4f6;
+  color: #a1a1aa;
+  cursor: not-allowed;
+}
+
+.dashboardGridModern {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+}
+.dashboardCardModern {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.04);
+  padding: 24px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .dashboardGridModern {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0 4px;
+  }
+  .dashboardCardModern {
+    padding: 18px 8px;
+  }
+  .recentesCards {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+  padding: 0 8px;
+}
+
+.gridPainel {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto 24px auto;
+  align-items: flex-start;
+}
+.cardsRecentesGrid {
+  background: none;
+  padding: 0;
+}
+.recentesTitulo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+.recentesCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 18px;
+}
+.cardPlanoRecente {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.04);
+  padding: 18px 20px 14px 20px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.dashboardCardsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.gridPainelBottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto 32px auto;
+}
+
+.dashboardCardModern {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(51,102,255,0.04);
+  padding: 24px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 90px;
+}
+
+.novoPlanoBtn {
+  min-width: 140px;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
+  height: 44px;
+}
+
+@media (max-width: 1200px) {
+  .gridPainel, .gridPainelBottom {
+    max-width: 98vw;
+    gap: 12px;
+  }
+  .topBar {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
+}
+@media (max-width: 900px) {
+  .gridPainel {
+    grid-template-columns: 1fr;
+  }
+  .dashboardCardsCol {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .recentesCardsGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .gridPainelBottom {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .recentesCardsGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 8px;
+  }
+  .dashboardCardsCol {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+} 
