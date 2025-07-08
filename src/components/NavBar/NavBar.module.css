@@ -43,4 +43,21 @@
   background: var(--primary-blue);
   color: #fff;
   border-color: var(--primary-blue);
+}
+
+.logoutBtn {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1.5px solid #fecaca;
+  border-radius: var(--border-radius-md);
+  padding: 6px 18px;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s, color 0.2s;
+}
+.logoutBtn:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
 } 

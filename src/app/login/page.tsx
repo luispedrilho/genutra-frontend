@@ -2,9 +2,10 @@
 import styles from './login.module.css';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { NavBar } from '@/components/NavBar';
+import { useAuth } from '@/lib/useAuth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const router = useRouter();
+  const { login, isLoggedIn, isInitialized } = useAuth();
+
+  // Redirecionar se já estiver logado (após inicialização)
+  useEffect(() => {
+    if (isInitialized && isLoggedIn) {
+      router.push('/painel');
+    }
+  }, [isLoggedIn, isInitialized, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,11 +41,9 @@ export default function LoginPage() {
       } else {
         setSuccess('Login realizado com sucesso! Redirecionando...');
         if (data.token) {
-          localStorage.setItem('token', data.token);
+          login(data.token);
         }
-        setTimeout(() => {
-          router.push('/painel');
-        }, 1200);
+        // O redirecionamento será feito pelo useEffect quando isLoggedIn mudar
       }
     } catch (err) {
       setError('Erro de conexão com o servidor.');
@@ -48,6 +55,25 @@ export default function LoginPage() {
   function handleCadastroClick(e: React.MouseEvent) {
     e.preventDefault();
     router.push('/cadastro');
+  }
+
+  // Se não foi inicializado ainda, mostrar loading
+  if (!isInitialized) {
+    return (
+      <>
+        <NavBar showBack={false} showHome={true} />
+        <div className={styles.loginBg}>
+          <div className={styles.loginCard}>
+            <div style={{ textAlign: 'center', padding: 20 }}>Carregando...</div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Se já estiver logado, não renderiza nada (será redirecionado)
+  if (isLoggedIn) {
+    return null;
   }
 
   return (

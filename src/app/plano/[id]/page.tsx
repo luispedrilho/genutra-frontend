@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { NavBar } from '@/components/NavBar';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Button } from '@/components/Button';
 import styles from './plano.module.css';
 
@@ -46,6 +47,7 @@ export default function PlanoPage() {
         if (!res.ok) {
           if (res.status === 401) {
             localStorage.removeItem('token');
+            window.dispatchEvent(new CustomEvent('auth:logout'));
             router.push('/login');
             return;
           }
@@ -67,7 +69,7 @@ export default function PlanoPage() {
 
   if (loading) {
     return (
-      <>
+      <ProtectedRoute>
         <NavBar showBack={true} showHome={true} />
         <div className={styles.container}>
           <div className={styles.loading}>
@@ -75,13 +77,13 @@ export default function PlanoPage() {
             <p>Carregando plano...</p>
           </div>
         </div>
-      </>
+      </ProtectedRoute>
     );
   }
 
   if (error || !plano) {
     return (
-      <>
+      <ProtectedRoute>
         <NavBar showBack={true} showHome={true} />
         <div className={styles.container}>
           <div className={styles.error}>
@@ -95,12 +97,12 @@ export default function PlanoPage() {
             </Button>
           </div>
         </div>
-      </>
+      </ProtectedRoute>
     );
   }
 
   return (
-    <>
+    <ProtectedRoute>
       <NavBar showBack={true} showHome={true} />
       <div className={styles.container}>
         <div className={styles.header}>
@@ -177,6 +179,6 @@ export default function PlanoPage() {
           {!planoJson && <pre className={styles.planoTexto}>{plano?.plano}</pre>}
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 } 

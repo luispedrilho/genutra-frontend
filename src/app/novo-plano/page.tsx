@@ -3,6 +3,7 @@ import styles from './novo-plano.module.css';
 import { Button } from '@/components/Button';
 import { useState } from 'react';
 import { NavBar } from '@/components/NavBar';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useRouter } from 'next/navigation';
 
 const objetivos = [
@@ -62,12 +63,13 @@ export default function NovoPlanoPage() {
         body: JSON.stringify(form)
       });
       const data = await res.json();
-      if (!res.ok) {
-        if (res.status === 401) {
-          localStorage.removeItem('token');
-          router.push('/login');
-          return;
-        }
+              if (!res.ok) {
+          if (res.status === 401) {
+            localStorage.removeItem('token');
+            window.dispatchEvent(new CustomEvent('auth:logout'));
+            router.push('/login');
+            return;
+          }
         setError(data.error || 'Erro ao gerar plano.');
       } else {
         // Redirecionar para a página do plano gerado
@@ -84,7 +86,7 @@ export default function NovoPlanoPage() {
   // Se estiver carregando, mostrar tela de loading
   if (loading) {
     return (
-      <>
+      <ProtectedRoute>
         <NavBar showBack={true} showHome={true} />
         <div className={styles.bg}>
           <div className={styles.loadingContainer}>
@@ -98,12 +100,12 @@ export default function NovoPlanoPage() {
             </div>
           </div>
         </div>
-      </>
+      </ProtectedRoute>
     );
   }
 
   return (
-    <>
+    <ProtectedRoute>
       <NavBar showBack={true} showHome={true} />
       <div className={styles.bg}>
         <div className={styles.card}>
@@ -166,6 +168,6 @@ export default function NovoPlanoPage() {
           </form>
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 } 

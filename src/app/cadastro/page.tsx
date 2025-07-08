@@ -2,9 +2,10 @@
 import styles from './cadastro.module.css';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { NavBar } from '@/components/NavBar';
+import { useAuth } from '@/lib/useAuth';
 
 export default function CadastroPage() {
   const [form, setForm] = useState({
@@ -19,6 +20,14 @@ export default function CadastroPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const router = useRouter();
+  const { isLoggedIn, isInitialized } = useAuth();
+
+  // Redirecionar se já estiver logado (após inicialização)
+  useEffect(() => {
+    if (isInitialized && isLoggedIn) {
+      router.push('/painel');
+    }
+  }, [isLoggedIn, isInitialized, router]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -51,6 +60,25 @@ export default function CadastroPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // Se não foi inicializado ainda, mostrar loading
+  if (!isInitialized) {
+    return (
+      <>
+        <NavBar showBack={true} showHome={true} />
+        <div className={styles.cadastroBg}>
+          <div className={styles.cadastroCard}>
+            <div style={{ textAlign: 'center', padding: 20 }}>Carregando...</div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Se já estiver logado, não renderiza nada (será redirecionado)
+  if (isLoggedIn) {
+    return null;
   }
 
   return (

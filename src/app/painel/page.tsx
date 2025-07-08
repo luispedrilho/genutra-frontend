@@ -3,6 +3,7 @@ import styles from './painel.module.css';
 import { Button } from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { NavBar } from '@/components/NavBar';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useEffect, useState } from 'react';
 
 interface DashboardData {
@@ -84,6 +85,7 @@ export default function PainelPage() {
           if (res.status === 401) {
             // Token inválido, limpar e redirecionar
             localStorage.removeItem('token');
+            window.dispatchEvent(new CustomEvent('auth:logout'));
             router.push('/login');
             return;
           }
@@ -121,7 +123,7 @@ export default function PainelPage() {
   const totalPages = Math.ceil(recentesTotal / RECENTES_LIMIT);
 
   return (
-    <>
+    <ProtectedRoute>
       <NavBar showBack={false} showHome={true} />
       <div className={styles.bg}>
         {/* TOPO: Título e botão Novo Plano */}
@@ -251,6 +253,6 @@ export default function PainelPage() {
           )}
         </div>
       </div>
-    </>
+    </ProtectedRoute>
   );
 } 

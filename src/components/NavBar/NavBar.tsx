@@ -2,9 +2,16 @@
 import styles from './NavBar.module.css';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useAuth } from '@/lib/useAuth';
 
 export function NavBar({ showBack = true, showHome = true }) {
   const router = useRouter();
+  const { isLoggedIn, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -22,6 +29,11 @@ export function NavBar({ showBack = true, showHome = true }) {
         {showHome && (
           <button className={styles.navBtn} onClick={() => router.push('/painel')}>
             Home
+          </button>
+        )}
+        {isLoggedIn && (
+          <button className={styles.logoutBtn} onClick={handleLogout}>
+            Sair
           </button>
         )}
       </div>
