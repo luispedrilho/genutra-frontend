@@ -74,6 +74,48 @@
   min-height: 44px;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 1.5rem 0;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.divider::before {
+  margin-right: 1rem;
+}
+
+.divider::after {
+  margin-left: 1rem;
+}
+
+.googleButton {
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-md);
+  min-height: 44px;
+  background: var(--white);
+  border: 1.5px solid #e5e7eb;
+  color: var(--text-dark);
+}
+
+.googleButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
 .loginText {
   color: var(--text-gray);
   font-size: 0.98rem;

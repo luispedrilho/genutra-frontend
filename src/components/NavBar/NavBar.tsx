@@ -17,7 +17,7 @@ export function NavBar({ showBack = true, showHome = true }) {
     <nav className={styles.navbar}>
       <div className={styles.left}>
         <div className={styles.logoBox} onClick={() => router.push('/painel')} title="Ir para o Painel" style={{ cursor: 'pointer' }}>
-          <Image src="/logo_completa.png" alt="Genutra Logo" width={80} height={80} className={styles.logo} priority />
+          <Image src="/logo_completa.png" alt="Genutra Logo" width={80} height={48} className={styles.logo} priority />
         </div>
         {showBack && (
           <button className={styles.navBtn} onClick={() => router.back()}>
@@ -28,12 +28,12 @@ export function NavBar({ showBack = true, showHome = true }) {
       <div className={styles.right}>
         {showHome && (
           <button className={styles.navBtn} onClick={() => router.push('/painel')}>
-            Home
+            🏠 Home
           </button>
         )}
         {isLoggedIn && (
           <button className={styles.logoutBtn} onClick={handleLogout}>
-            Sair
+            🚪 Sair
           </button>
         )}
       </div>
