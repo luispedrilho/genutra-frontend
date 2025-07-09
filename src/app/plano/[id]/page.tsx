@@ -65,7 +65,19 @@ export default function PlanoPage() {
     fetchPlano();
   }, [params.id, router]);
 
-  const planoJson: any = typeof plano?.plano === 'object' && plano?.plano !== null ? plano.plano : null;
+  // Garante que o plano seja um objeto, mesmo se vier como string JSON
+  let planoJson: any = null;
+  if (plano?.plano) {
+    if (typeof plano.plano === 'object') {
+      planoJson = plano.plano;
+    } else {
+      try {
+        planoJson = JSON.parse(plano.plano);
+      } catch (e) {
+        planoJson = null;
+      }
+    }
+  }
 
   if (loading) {
     return (
@@ -149,9 +161,13 @@ export default function PlanoPage() {
                   <div key={i} className={styles.cardRefeicao}>
                     <h3 className={styles.nomeRefeicao}>{row.refeicao}</h3>
                     <ul className={styles.listaAlimentos}>
-                      {row.alimentos.split(/\n|,|;/).map((item: string, idx: number) => (
-                        <li key={idx}>{item.trim()}</li>
-                      ))}
+                      {Array.isArray(row.alimentos)
+                        ? row.alimentos.map((item: string, idx: number) => (
+                            <li key={idx}>{item.trim()}</li>
+                          ))
+                        : String(row.alimentos).split(/\n|,|;/).map((item: string, idx: number) => (
+                            <li key={idx}>{item.trim()}</li>
+                          ))}
                     </ul>
                     {row.observacoes && (
                       <div className={styles.obsRefeicao}><strong>Obs:</strong> {row.observacoes}</div>
@@ -175,8 +191,13 @@ export default function PlanoPage() {
               <div className={styles.planoTexto}>{planoJson.notas}</div>
             </section>
           )}
-          {/* Caso não consiga exibir, mostra o texto bruto */}
-          {!planoJson && <pre className={styles.planoTexto}>{plano?.plano}</pre>}
+          {/* Caso não consiga exibir, mostra mensagem amigável */}
+          {!planoJson && (
+            <div className={styles.planoTexto}>
+              Não foi possível exibir o plano de forma estruturada. Tente gerar novamente ou contate o suporte.<br />
+              <pre style={{ fontSize: 12, color: '#888', marginTop: 8 }}>{plano?.plano}</pre>
+            </div>
+          )}
         </div>
       </div>
     </ProtectedRoute>

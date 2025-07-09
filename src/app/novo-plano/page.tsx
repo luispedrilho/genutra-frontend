@@ -29,7 +29,6 @@ export default function NovoPlanoPage() {
     circ_abdominal: '',
     objetivo: '',
     restricoes: '',
-    condicoes: '',
     preferencias: '',
     estilo_vida: '',
     atividade: '',
@@ -37,9 +36,28 @@ export default function NovoPlanoPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [step, setStep] = useState(0);
+
+  const steps = [
+    'Dados do Paciente',
+    'Objetivo e Preferências',
+    'Observações e Revisão',
+  ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  function handleNext(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    setError('');
+    setStep((prev) => Math.min(prev + 1, steps.length - 1));
+  }
+
+  function handleBack(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    setError('');
+    setStep((prev) => Math.max(prev - 1, 0));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -52,7 +70,6 @@ export default function NovoPlanoPage() {
         router.push('/login');
         return;
       }
-      
       const apiUrl = process.env.NEXT_PUBLIC_API_URL;
       const res = await fetch(`${apiUrl}/gerar-plano`, {
         method: 'POST',
@@ -63,16 +80,15 @@ export default function NovoPlanoPage() {
         body: JSON.stringify(form)
       });
       const data = await res.json();
-              if (!res.ok) {
-          if (res.status === 401) {
-            localStorage.removeItem('token');
-            window.dispatchEvent(new CustomEvent('auth:logout'));
-            router.push('/login');
-            return;
-          }
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          window.dispatchEvent(new CustomEvent('auth:logout'));
+          router.push('/login');
+          return;
+        }
         setError(data.error || 'Erro ao gerar plano.');
       } else {
-        // Redirecionar para a página do plano gerado
         router.push(`/plano/${data.plano.id}`);
         return;
       }
@@ -83,7 +99,6 @@ export default function NovoPlanoPage() {
     }
   }
 
-  // Se estiver carregando, mostrar tela de loading
   if (loading) {
     return (
       <ProtectedRoute>
@@ -110,61 +125,104 @@ export default function NovoPlanoPage() {
       <div className={styles.bg}>
         <div className={styles.card}>
           <h1 className={styles.title}>Nova Anamnese</h1>
-          <form className={styles.form} onSubmit={handleSubmit} autoComplete="off">
-            <div className={styles.grid2}>
-              <div>
-                <label className={styles.label}>Nome do paciente</label>
-                <input className={styles.input} name="nome" value={form.nome} onChange={handleChange} required />
+          <div className={styles.stepper}>
+            {steps.map((s, i) => (
+              <div key={s} className={i === step ? styles.activeStep : styles.step}>
+                {i + 1}. {s}
               </div>
-              <div>
-                <label className={styles.label}>Idade</label>
-                <input className={styles.input} name="idade" value={form.idade} onChange={handleChange} required type="number" min="0" />
+            ))}
+          </div>
+          <form className={styles.form} onSubmit={step === steps.length - 1 ? handleSubmit : handleNext} autoComplete="off">
+            {step === 0 && (
+              <div className={styles.grid2}>
+                <div>
+                  <label className={styles.label}>Nome do paciente</label>
+                  <input className={styles.input} name="nome" value={form.nome} onChange={handleChange} required />
+                </div>
+                <div>
+                  <label className={styles.label}>Idade</label>
+                  <input className={styles.input} name="idade" value={form.idade} onChange={handleChange} required type="number" min="0" />
+                </div>
+                <div>
+                  <label className={styles.label}>Gênero</label>
+                  <select className={styles.input} name="genero" value={form.genero} onChange={handleChange} required>
+                    <option value="">Selecione</option>
+                    {generos.map(g => <option key={g} value={g}>{g}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className={styles.label}>Altura (cm)</label>
+                  <input className={styles.input} name="altura" value={form.altura} onChange={handleChange} required type="number" min="0" />
+                </div>
+                <div>
+                  <label className={styles.label}>Peso (kg)</label>
+                  <input className={styles.input} name="peso" value={form.peso} onChange={handleChange} required type="number" min="0" />
+                </div>
+                <div>
+                  <label className={styles.label}>Gordura corporal (%)</label>
+                  <input className={styles.input} name="gordura" value={form.gordura} onChange={handleChange} type="number" min="0" />
+                </div>
+                <div>
+                  <label className={styles.label}>IMC</label>
+                  <input className={styles.input} name="imc" value={form.imc} onChange={handleChange} type="number" min="0" />
+                </div>
+                <div>
+                  <label className={styles.label}>Circunferência abdominal (cm)</label>
+                  <input className={styles.input} name="circ_abdominal" value={form.circ_abdominal} onChange={handleChange} type="number" min="0" />
+                </div>
               </div>
-              <div>
-                <label className={styles.label}>Gênero</label>
-                <select className={styles.input} name="genero" value={form.genero} onChange={handleChange} required>
-                  <option value="">Selecione</option>
-                  {generos.map(g => <option key={g} value={g}>{g}</option>)}
-                </select>
+            )}
+            {step === 1 && (
+              <div className={styles.grid2}>
+                <div>
+                  <label className={styles.label}>Objetivo</label>
+                  <select className={styles.input} name="objetivo" value={form.objetivo} onChange={handleChange} required>
+                    <option value="">Selecione</option>
+                    {objetivos.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className={styles.label}>Restrições alimentares e condições clínicas</label>
+                  <input className={styles.input} name="restricoes" value={form.restricoes} onChange={handleChange} placeholder="Ex: intolerância à lactose, diabetes..." />
+                </div>
+                <div>
+                  <label className={styles.label}>Preferências alimentares, estilo de vida e nível de atividade física</label>
+                  <input className={styles.input} name="preferencias" value={form.preferencias} onChange={handleChange} placeholder="Ex: vegetariano, rotina corrida, sedentário..." />
+                </div>
               </div>
-              <div>
-                <label className={styles.label}>Altura (cm)</label>
-                <input className={styles.input} name="altura" value={form.altura} onChange={handleChange} required type="number" min="0" />
-              </div>
-              <div>
-                <label className={styles.label}>Peso (kg)</label>
-                <input className={styles.input} name="peso" value={form.peso} onChange={handleChange} required type="number" min="0" />
-              </div>
-              <div>
-                <label className={styles.label}>Gordura corporal (%)</label>
-                <input className={styles.input} name="gordura" value={form.gordura} onChange={handleChange} type="number" min="0" />
-              </div>
-              <div>
-                <label className={styles.label}>IMC</label>
-                <input className={styles.input} name="imc" value={form.imc} onChange={handleChange} type="number" min="0" />
-              </div>
-              <div>
-                <label className={styles.label}>Circunferência abdominal (cm)</label>
-                <input className={styles.input} name="circ_abdominal" value={form.circ_abdominal} onChange={handleChange} type="number" min="0" />
-              </div>
-              <div>
-                <label className={styles.label}>Objetivo</label>
-                <select className={styles.input} name="objetivo" value={form.objetivo} onChange={handleChange} required>
-                  <option value="">Selecione</option>
-                  {objetivos.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-              </div>
-            </div>
-            <label className={styles.label}>Restrições alimentares e condições clínicas</label>
-            <input className={styles.input} name="restricoes" value={form.restricoes} onChange={handleChange} placeholder="Ex: intolerância à lactose, diabetes..." />
-            <label className={styles.label}>Preferências alimentares, estilo de vida e nível de atividade física</label>
-            <input className={styles.input} name="preferencias" value={form.preferencias} onChange={handleChange} placeholder="Ex: vegetariano, rotina corrida, sedentário..." />
-            <label className={styles.label}>Observações extras</label>
-            <textarea className={styles.input} name="observacoes" value={form.observacoes} onChange={handleChange} rows={2} placeholder="Observações adicionais" />
+            )}
+            {step === 2 && (
+              <>
+                <label className={styles.label}>Observações extras</label>
+                <textarea className={styles.input} name="observacoes" value={form.observacoes} onChange={handleChange} rows={2} placeholder="Observações adicionais" />
+                <div className={styles.revisaoBox}>
+                  <h3>Revisão dos dados</h3>
+                  <ul>
+                    {Object.entries(form).map(([key, value]) => (
+                      value && <li key={key}><b>{key}:</b> {value}</li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
             {error && <div style={{ color: '#EF4444', marginBottom: 8 }}>{error}</div>}
-            <Button type="submit" variant="primary" size="md" className={styles.gerarBtn} disabled={loading}>
-              Gerar Plano
-            </Button>
+            <div className={styles.stepButtons}>
+              {step > 0 && (
+                <Button type="button" variant="secondary" size="md" onClick={handleBack}>
+                  Voltar
+                </Button>
+              )}
+              {step < steps.length - 1 && (
+                <Button type="button" variant="primary" size="md" onClick={handleNext}>
+                  Próximo
+                </Button>
+              )}
+              {step === steps.length - 1 && (
+                <Button type="submit" variant="primary" size="md" disabled={loading} className={styles.gerarBtn}>
+                  Gerar Plano
+                </Button>
+              )}
+            </div>
           </form>
         </div>
       </div>
