@@ -39,9 +39,11 @@ export default function NovoPlanoPage() {
   const [step, setStep] = useState(0);
 
   const steps = [
-    'Dados do Paciente',
-    'Objetivo e Preferências',
-    'Observações e Revisão',
+    { label: 'Dados Pessoais' },
+    { label: 'Medidas' },
+    { label: 'Objetivos' },
+    { label: 'Restrições' },
+    { label: 'Preferências' },
   ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -125,10 +127,20 @@ export default function NovoPlanoPage() {
       <div className={styles.bg}>
         <div className={styles.card}>
           <h1 className={styles.title}>Nova Anamnese</h1>
-          <div className={styles.stepper}>
+          <p className={styles.subtitle}>Vamos criar um plano nutricional personalizado em 5 etapas</p>
+          <div className={styles.progressBarBox}>
+            <div className={styles.progressBarBg}>
+              <div
+                className={styles.progressBarFill}
+                style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+              />
+            </div>
+          </div>
+          <div className={styles.stepperModern}>
             {steps.map((s, i) => (
-              <div key={s} className={i === step ? styles.activeStep : styles.step}>
-                {i + 1}. {s}
+              <div key={s.label} className={styles.stepModernBox}>
+                <div className={i === step ? styles.stepCircleActive : styles.stepCircle}>{i + 1}</div>
+                <div className={styles.stepLabel}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -150,6 +162,10 @@ export default function NovoPlanoPage() {
                     {generos.map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
                 </div>
+              </div>
+            )}
+            {step === 1 && (
+              <div className={styles.grid2}>
                 <div>
                   <label className={styles.label}>Altura (cm)</label>
                   <input className={styles.input} name="altura" value={form.altura} onChange={handleChange} required type="number" min="0" />
@@ -172,37 +188,27 @@ export default function NovoPlanoPage() {
                 </div>
               </div>
             )}
-            {step === 1 && (
-              <div className={styles.grid2}>
-                <div>
-                  <label className={styles.label}>Objetivo</label>
-                  <select className={styles.input} name="objetivo" value={form.objetivo} onChange={handleChange} required>
-                    <option value="">Selecione</option>
-                    {objetivos.map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className={styles.label}>Restrições alimentares e condições clínicas</label>
-                  <input className={styles.input} name="restricoes" value={form.restricoes} onChange={handleChange} placeholder="Ex: intolerância à lactose, diabetes..." />
-                </div>
-                <div>
-                  <label className={styles.label}>Preferências alimentares, estilo de vida e nível de atividade física</label>
-                  <input className={styles.input} name="preferencias" value={form.preferencias} onChange={handleChange} placeholder="Ex: vegetariano, rotina corrida, sedentário..." />
-                </div>
+            {step === 2 && (
+              <div>
+                <label className={styles.label}>Objetivo</label>
+                <select className={styles.input} name="objetivo" value={form.objetivo} onChange={handleChange} required>
+                  <option value="">Selecione</option>
+                  {objetivos.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
               </div>
             )}
-            {step === 2 && (
+            {step === 3 && (
+              <div>
+                <label className={styles.label}>Restrições alimentares e condições clínicas</label>
+                <input className={styles.input} name="restricoes" value={form.restricoes} onChange={handleChange} placeholder="Ex: intolerância à lactose, diabetes..." />
+              </div>
+            )}
+            {step === 4 && (
               <>
+                <label className={styles.label}>Preferências alimentares, estilo de vida e nível de atividade física</label>
+                <input className={styles.input} name="preferencias" value={form.preferencias} onChange={handleChange} placeholder="Ex: vegetariano, rotina corrida, sedentário..." />
                 <label className={styles.label}>Observações extras</label>
                 <textarea className={styles.input} name="observacoes" value={form.observacoes} onChange={handleChange} rows={2} placeholder="Observações adicionais" />
-                <div className={styles.revisaoBox}>
-                  <h3>Revisão dos dados</h3>
-                  <ul>
-                    {Object.entries(form).map(([key, value]) => (
-                      value && <li key={key}><b>{key}:</b> {value}</li>
-                    ))}
-                  </ul>
-                </div>
               </>
             )}
             {error && <div style={{ color: '#EF4444', marginBottom: 8 }}>{error}</div>}
