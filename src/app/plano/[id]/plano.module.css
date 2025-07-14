@@ -152,4 +152,102 @@
   .planoTexto {
     font-size: 14px;
   }
+}
+
+/* Estilos para seções do plano */
+.cardSecao {
+  margin-bottom: 32px;
+}
+
+.tituloSecao {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.refeicoesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cardRefeicao {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #667eea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.headerRefeicao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nomeRefeicao {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.horarioRefeicao {
+  background: #667eea;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.listaAlimentos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.listaAlimentos li {
+  padding: 6px 0;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 15px;
+}
+
+.listaAlimentos li:last-child {
+  border-bottom: none;
+}
+
+.obsRefeicao {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #92400e;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .refeicoesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .headerRefeicao {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .horarioRefeicao {
+    align-self: flex-start;
+  }
 } 

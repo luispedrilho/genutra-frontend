@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { NavBar } from '@/components/NavBar';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useEffect, useState } from 'react';
+import { PlanoCard } from '@/components/PlanoCard';
 
 interface DashboardData {
   totalPlanos: number;
@@ -31,6 +32,9 @@ export default function PainelPage() {
   const [error, setError] = useState('');
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [recentes, setRecentes] = useState<Plano[]>([]);
+  const [recentesPage, setRecentesPage] = useState(1);
+  const [recentesTotal, setRecentesTotal] = useState(0);
+  const RECENTES_LIMIT = 6;
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('todos');
 
@@ -51,24 +55,26 @@ export default function PainelPage() {
     fetchDashboard();
   }, []);
 
-  // Buscar planos recentes
+  // Buscar planos recentes paginados
   useEffect(() => {
     async function fetchRecentes() {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        const res = await fetch(`${apiUrl}/planos/recentes?limit=6`, {
+        const offset = (recentesPage - 1) * RECENTES_LIMIT;
+        const res = await fetch(`${apiUrl}/planos/recentes?limit=${RECENTES_LIMIT}&offset=${offset}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
         if (res.ok) {
           setRecentes(data.planos || []);
+          setRecentesTotal(data.total || 0);
         }
       } catch {}
     }
     fetchRecentes();
-  }, []);
+  }, [recentesPage]);
 
   // Buscar todos os planos
   useEffect(() => {
@@ -257,35 +263,37 @@ export default function PainelPage() {
               
               <div className={styles.recentCards}>
                 {recentes.length > 0 ? (
-                  recentes.map((plano) => (
-                    <div key={plano.id} className={styles.recentCard}>
-                      <div className={styles.recentCardHeader}>
-                        <div className={styles.recentCardInfo}>
-                          <h4 className={styles.recentCardTitle}>{plano.paciente}</h4>
-                          <p className={styles.recentCardObjective}>{plano.objetivo}</p>
-                        </div>
-                        <div className={styles.recentCardDate}>
-                          {new Date(plano.data).toLocaleDateString('pt-BR')}
-                        </div>
-                      </div>
-                      <div className={styles.recentCardActions}>
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={() => router.push(`/plano/${plano.id}`)}
-                        >
-                          Visualizar
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => router.push(`/plano/${plano.id}/editar`)}
-                        >
-                          Editar
-                        </Button>
-                      </div>
+                  <>
+                    {recentes.map((plano) => (
+                      <PlanoCard
+                        key={plano.id}
+                        plano={plano}
+                        onVisualizar={(id) => router.push(`/plano/${id}`)}
+                        onEditar={(id) => router.push(`/plano/${id}/editar`)}
+                      />
+                    ))}
+                    <div className={styles.paginationContainer}>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setRecentesPage((p) => Math.max(1, p - 1))}
+                        disabled={recentesPage === 1}
+                      >
+                        Anterior
+                      </Button>
+                      <span className={styles.paginationInfo}>
+                        Página {recentesPage} de {Math.ceil(recentesTotal / RECENTES_LIMIT) || 1}
+                      </span>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setRecentesPage((p) => p + 1)}
+                        disabled={recentesPage * RECENTES_LIMIT >= recentesTotal}
+                      >
+                        Próxima
+                      </Button>
                     </div>
-                  ))
+                  </>
                 ) : (
                   <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>📋</div>

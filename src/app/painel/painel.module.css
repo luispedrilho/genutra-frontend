@@ -6,6 +6,10 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+.topSpacing {
+  margin-top: 32px;
+}
+
 /* Header Section */
 .dashboardHeader {
   background: linear-gradient(135deg, var(--primary-blue) 0%, #4f46e5 100%);
@@ -320,6 +324,11 @@
   gap: var(--spacing-md);
 }
 
+/* Espaço entre header e grid de cards */
+.recentCards {
+  margin-top: var(--spacing-lg);
+}
+
 .recentCard {
   background: var(--bg-light);
   border-radius: var(--border-radius-lg);
@@ -370,9 +379,12 @@
 
 /* All Plans Section */
 .allPlansSection {
+  background: white;
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-xl) var(--spacing-2xl) var(--spacing-xl);
+  margin: 0 auto var(--spacing-2xl) auto;
 }
 
 .allPlansHeader {
@@ -675,4 +687,18 @@
   .recentCardActions {
     flex-direction: column;
   }
+} 
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.paginationInfo {
+  font-size: 15px;
+  color: #374151;
+  font-weight: 500;
 } 

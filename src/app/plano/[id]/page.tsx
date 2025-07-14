@@ -159,7 +159,12 @@ export default function PlanoPage() {
               <div className={styles.refeicoesGrid}>
                 {planoJson.tabela.map((row: any, i: number) => (
                   <div key={i} className={styles.cardRefeicao}>
-                    <h3 className={styles.nomeRefeicao}>{row.refeicao}</h3>
+                    <div className={styles.headerRefeicao}>
+                      <h3 className={styles.nomeRefeicao}>{row.refeicao}</h3>
+                      {row.horario && (
+                        <span className={styles.horarioRefeicao}>🕐 {row.horario}</span>
+                      )}
+                    </div>
                     <ul className={styles.listaAlimentos}>
                       {Array.isArray(row.alimentos)
                         ? row.alimentos.map((item: string, idx: number) => (
