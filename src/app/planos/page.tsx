@@ -92,7 +92,6 @@ export default function PlanosPage() {
                     key={plano.id}
                     plano={plano}
                     onVisualizar={id => router.push(`/plano/${id}`)}
-                    onEditar={id => router.push(`/plano/${id}/editar`)}
                   />
                 ))
               ) : (

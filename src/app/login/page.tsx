@@ -1,10 +1,12 @@
 "use client";
 import styles from './login.module.css';
 import { Button } from '@/components/Button';
+import { GoogleLoginButton } from '@/components/GoogleLoginButton';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/useAuth';
+import { useGoogleAuth } from '@/lib/useGoogleAuth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,6 +16,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState('');
   const router = useRouter();
   const { login, isLoggedIn, isInitialized } = useAuth();
+  const { loginWithGoogle, loading: googleLoading, error: googleError } = useGoogleAuth();
 
   // Redirecionar se já estiver logado (após inicialização)
   useEffect(() => {
@@ -111,9 +114,12 @@ export default function LoginPage() {
           </Button>
         </form>
         <div className={styles.divider}>ou</div>
-        <Button variant="secondary" size="md" className={styles.googleButton}>
-          Entrar com Google
-        </Button>
+        <GoogleLoginButton 
+          onClick={loginWithGoogle}
+          loading={googleLoading}
+          disabled={loading || googleLoading}
+        />
+        {googleError && <div style={{ color: '#EF4444', marginTop: 8, textAlign: 'center' }}>{googleError}</div>}
         <p className={styles.signupText}>
           Não tem uma conta?{' '}
           <Link href="/cadastro" className={styles.signupLink} onClick={handleCadastroClick}>Cadastre-se</Link>

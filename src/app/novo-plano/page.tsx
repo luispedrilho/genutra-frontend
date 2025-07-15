@@ -90,13 +90,14 @@ export default function NovoPlanoPage() {
           return;
         }
         setError(data.error || 'Erro ao gerar plano.');
+        setLoading(false);
       } else {
+        // Não resetar loading aqui, manter até o redirecionamento
         router.push(`/plano/${data.plano.id}`);
         return;
       }
     } catch (err) {
       setError('Erro de conexão com o servidor.');
-    } finally {
       setLoading(false);
     }
   }

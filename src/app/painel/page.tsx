@@ -269,7 +269,6 @@ export default function PainelPage() {
                         key={plano.id}
                         plano={plano}
                         onVisualizar={(id) => router.push(`/plano/${id}`)}
-                        onEditar={(id) => router.push(`/plano/${id}/editar`)}
                       />
                     ))}
                     <div className={styles.paginationContainer}>

@@ -10,10 +10,9 @@ interface PlanoCardProps {
     data: string;
   };
   onVisualizar: (id: string) => void;
-  onEditar?: (id: string) => void;
 }
 
-export const PlanoCard: React.FC<PlanoCardProps> = ({ plano, onVisualizar, onEditar }) => {
+export const PlanoCard: React.FC<PlanoCardProps> = ({ plano, onVisualizar }) => {
   return (
     <div className={styles.recentCard}>
       <div className={styles.recentCardHeader}>
@@ -33,15 +32,6 @@ export const PlanoCard: React.FC<PlanoCardProps> = ({ plano, onVisualizar, onEdi
         >
           Visualizar
         </Button>
-        {onEditar && (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => onEditar(plano.id)}
-          >
-            Editar
-          </Button>
-        )}
       </div>
     </div>
   );
